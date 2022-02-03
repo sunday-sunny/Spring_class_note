@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- di02 
+		<bean>: 자바 객체(자바빈), 자바의 객체를 생성하는데 사용하는 태그 
+		- Spring을 통해서 아래의 <bean> 선언을 호출한 뒤 객체를 생성할 수 있다. 
+		- Spring을 사용하면 객체의 생성~소멸을 프레임워크에게 관리 맡길 수 있다. 
+		
+		- class: 클래스 이름은 풀네임으로 적기 
+		- id: 구분을 위한 것, 보편적으로 id 사용 
+		- name: 별칭, 2개 이상 주는 것 가능 -->
+
+
+	<!-- 예제1) com.test.spring.di02 > Ex02.java -->
+	<!-- <bean id="hong" name="aa bb cc" class="com.test.spring.di02.Hong"></bean> 
+		<bean id="pen" name="dd ee" class="com.test.spring.di02.Pen"></bean> -->
+
+
+
+	<!-- 예제2) com.test.spring.di02 > Ex02.java -->
+	<!-- Spring DI (contructor-arg 설정)-->
+	
+	<!-- context.getBean("hong") -->
+	<bean id="pen" name="dd ee" class="com.test.spring.di02.Pen"></bean>
+
+	<!-- Hong 만들 때, 매개변수 넣어서 만드세요 (== ref="pen") --> 
+	<!-- pen 먼저 object 만들고, 이 object를 생성자 매개변수로 채워넣음 -->
+	<bean id="hong" name="aa bb cc" class="com.test.spring.di02.Hong">
+		<constructor-arg ref="pen"></constructor-arg> <!-- 여기서 의존 주입(DI) -->
+	</bean>
+
+
+</beans>
