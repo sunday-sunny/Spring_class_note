@@ -93,10 +93,88 @@
 
 
 
+/* 2022-02-04(금) */
+
+AOP, Aspect Oriented Programming
+- 관점 지향 프로그래밍
+- 생산성 & 유지 보수성 향상을 위한 기술
+- 주 업무와 보조 업무를 분리시켜 > 각각의 업무를 효율적으로 관리하는 기법
 
 
 
+Spring AOP
+1. Core Concern
+	- 주업무
+	
+2. Cross-cutting Concern
+	- 보조업무
+	- 횡단 관심사
+	- 인증(보안) 처리, 예외 처리, 로깅, 트랜잭션 등..
+	
+3. Advice
+	- 보조업무가 주업무 실행중 어느 시점에 개입해서 보조업무를 실행할지에 대한 미리 정의된 규칙
+	
+	a. Before
+		- 주업무를 실행하기 전에 보조업무를 실행한다. > 인증티켓검사
+	
+	b. After
+		- 주업무를 실행한 후에 보조업무를 실행한다. > 로그기록
+		
+	c. After-returning
+		- 주업무를 실행한 후에 주업무의 반환값을 사용하는 보조업무를 실행한다.
+	
+	d. After-throwing
+		- 주업무를 실행 중 예외가 발생했을 때 보조업무를 실행한다.
+		
+	e. Around
+		- 주업무를 실행하기 전과 실행한 후에 보조업무를 실행한다.(Before + After)
+		
 
+		
+업무
+- 콘솔 프로젝트 + AOP 적용 + 메모장
+
+
+주업무
+1. 메모쓰기
+2. 메모읽기
+3. 메모수정
+4. 메모삭제
+
+
+보조업무
+1. 로그처리
+2. 인증티켓
+
+
+파일
+- "com.test.spring.aop"
+	- Main.java		> 메인클래스(main())
+	- IMemo.java	> 주업무 인터페이스
+	- Memo.java		> 주업무 클래스
+	------------------------------------
+	- Logger.java	> 보조업무 클래스(로그처리)
+	- Auth.java		> 부조업무 클래스(인증티켓)
+	------------------------------------
+	- memo.xml		> 스프링 설정파일
+	
+
+
+** AOP 사용하려면 라이브러리 몇 개 필요!
+- Maven Repository : https://mvnrepository.com/
+- pom.xml에 라이브러리 설정
+
+- AOP Alliance
+- Aspect JWeaver
+- CGLib
+
+
+
+* groubId : 패키지이름
+* artifactId : 라이브러리 이름
+
+
+주업무 + 보조업무 결합 > before + after > around, + 2
 
 
 

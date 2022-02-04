@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<!-- *** Spring AOP 설정 *** 
+		1. 주업무 객체 지정
+		2. 보조업무 객체 지정
+		3. 1+2 결합
+			(주업무와 보조업무의 관계 맺기)
+			- a. 보조업무객체 지정, 자격 할당
+			- b. 포인트컷(PointCut) 지정 : AspectJ 표현식 사용, id는 고유값
+				- 메소드명은 패키지명 풀네임으로 써준다, 매개변수는 변수 타입
+			- c. 위빙(weaving) : 포인트컷과 보조업무를 결합
+				- method : 보조업무객체가 가지고 있는 메소드 중, 실행하려는 메소드 이름
+				- pointcut-ref : 포인트컷 id
+	-->
+	
+	
+	<!-- 1. 주업무 객체 지정 -->
+	<bean id="memo" class="com.test.spring.aop.Memo"></bean>
+	
+	
+	<!-- 2. 보조업무 객체 지정 -->
+	<bean id="logger" class="com.test.spring.aop.Logger"></bean>
+	<bean id="auth" class="com.test.spring.aop.Auth"></bean>
+	
+	
+	<!-- 3. 1+2 결합 -->
+	<aop:config>
+	
+		<!-- a. 보조업무객체 지정 -->
+		<!-- Logger 보조업무 -->
+		<aop:aspect id="loggerAdvice" ref="logger">
+		
+			<!-- 예제1) before advice, pointcut 하나  -->
+			
+			<!-- b. 포인트컷(PointCut) 지정 -->
+			<aop:pointcut expression="execution(public void com.test.spring.aop.Memo.auth_add(String))" id="p1"/>
+			
+			<!-- c. 위빙(weaving) -->
+			<aop:before method="log" pointcut-ref="p1"/>
+			
+			
+			
+			<!-- 예제2) 와일드 카드 사용, pointcut 여러개 지정 -->
+			<!-- Memo 클래스가 가지는 모든 클래스를 주업무로 갖고, 모든 메소드를 주업무 타겟을 잡음 
+				* : 와일드 카드
+				(..) : 인자값 와일드 카드
+			-->
+			<aop:pointcut expression="execution(public * com.test.spring.aop.Memo.*(..))" id="p3"/>
+			<aop:before method="log" pointcut-ref="p3"/>
+			
+			
+			
+			<!-- 예제3) around advice, logTime 메소드 -->
+			<aop:pointcut expression="execution(public * com.test.spring.aop.Memo.auth_add(..))" id="p6"/>
+			<aop:around method="logTime" pointcut-ref="p6"/>
+			
+			
+			
+			<!-- 예제4) after-throwing, sendMail 메소드
+						- throwing에 해당 메소드의 매개변수 이름을 꼭 적어야한다. -->
+			<aop:pointcut expression="execution(public void com.test.spring.aop.Memo.read(..))" id="p7"/>
+			<aop:after-throwing method="sendMail" pointcut-ref="p7" throwing="e" /> 
+			
+			
+			
+			<!-- 예제5) after-returning, logSearch 메소드 
+						- returning에 해당 메소드의 매개변수 이름을 꼭 적어야한다! -->
+			<aop:pointcut expression="execution(public * com.test.spring.aop.Memo.search(..))" id="p8"/>
+			<aop:after-returning method="logSearch" pointcut-ref="p8" returning="obj" />
+			
+		</aop:aspect>
+		
+		
+		
+		<!-- Auth 보조업무, (인증검사 > 메모쓰기, 수정, 삭제) -->		
+		<aop:aspect id="authAdvice" ref="auth">
+		
+			<!-- 예제1) before, auth 메소드, pointcut 1개 -->
+			<aop:pointcut expression="execution(public void com.test.spring.aop.Memo.auth_add(String))" id="p2"/>
+			<aop:before method="auth" pointcut-ref="p2" />
+			
+			
+			<!-- 예제2) before, auth 메소드, pointcut n개 -->
+	 		<aop:pointcut expression="execution(public void com.test.spring.aop.Memo.auth_add(String)) || execution(public void com.test.spring.aop.Memo.auth_edit(int, String)) || execution(public void com.test.spring.aop.Memo.auth_del(int))" id="p4"/>
+			<aop:before method="auth" pointcut-ref="p4"/>
+			
+			
+			<!-- 예제3) before, auth 메소드, 와일드카드 사용 -->
+ 			<aop:pointcut expression="execution(public void com.test.spring.aop.Memo.auth_*(..))" id="p5"/>
+ 			<aop:before method="auth" pointcut-ref="p5"/>
+			
+			
+			<!-- 예제4) All 와일드카드 -->
+			<!-- 모든 접근지정자 + 모든 패키지 + 모든 메소드 + 모든 인자에 대해 적용 (잘 사용X) -->
+			<!-- <aop:pointcut expression="execution(* *.*(..)" id="p6"/>
+			<aop:before method="auth" pointcut-ref="p6"/> -->
+		 
+		</aop:aspect>
+		
+		
+	</aop:config>
+	
+	
+	
+</beans>
