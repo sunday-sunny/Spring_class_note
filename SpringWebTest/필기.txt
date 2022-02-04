@@ -1,0 +1,31 @@
+/* 2022-02-04(금) */
+
+
+새 프로젝트
+- "SpringWebTest" > Spring MVC Project > "com.test.spring"
+
+
+lombok 라이브러리 
+- pom.xml에 추가
+- @Data 어노테이션을 사용해서 getter, setter, toString을 자동으로 만들어주는 기능
+- 예제) 아래 DTO.java에서 getter, setter를 안 만들어도 Ex01.java에서 사용 가능
+
+- "com.test.spring"
+	- "Ex01.java"
+	- "DTO.java"
+
+
+
+Spring MVC
+- Spring 기반의 MVC를 지원하는 웹 프로젝트
+- 이미 프로젝트 생성시 "Spring MVC Proeject" 선택하여 생성함.
+
+- "com.test.spring"
+	- Ex02Controller.java
+	
+- "src > main > webapp > WEB-INF > view"
+	- ex02.jsp
+	- ex02_1.jsp
+	- member/ex02_2.jsp
+	
+	
