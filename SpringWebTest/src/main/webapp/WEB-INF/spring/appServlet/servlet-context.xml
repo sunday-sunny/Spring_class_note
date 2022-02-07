@@ -12,11 +12,25 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
+
+
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	
+	<!-- *** resources 경로 지정
+		- mapping: 표현 경로(코드) or 경로 별칭		> JSP에서 이 표현을 쓰면 mapping에 있는걸 쓸게요
+		- location: 물리적 경로 					> 실제 폴더
+		- **: 해당 폴더와 자식 폴더 전체를 지칭
+	-->	
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/img/**" location="/resources/images/" />
+	<resources mapping="/css/**" location="/resources/css/" />
+	<resources mapping="/js/**" location="/resources/js/" />
+
+
+
+
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	
 	
 	<!-- *** 뷰 리졸버, ViewResolver 
 		- 요청 메소드의 반환 문자열을 받아서(return "ex02")을 받아서 앞에 prefix와 뒤에 postfix를 붙여서 하나의 경로를 완성한 후, 호출한다.

@@ -29,3 +29,49 @@ Spring MVC
 	- member/ex02_2.jsp
 	
 	
+	
+
+/* 2022-02-07(월) */
+
+* Project > "SpringWebTest"
+
+Spring MVC
+- Spring 기반의 MVC를 지원하는 웹 프로젝트
+
+
+데이터 입력 + 전송 + 수신
+- "com.test.spring"
+	- Ex03Controller.java
+
+- "src > main > webapp > WEB-INF > view"
+	- ex03.jsp		// 데이터 보내기
+	- ex03ok.jsp	// 데이터 받기
+
+
+1. JSPTest에서 쓰던 자원 복사해오기
+	- inc 폴더
+		- D:\class\server\JSPTest\src\main\webapp\inc
+		- src > main > webapp 폴더에 넣기
+		- 폴더 경로가 변경되었으므로, 'asset.jsp' 내 link된 경로들 변경해주기
+			- EX) <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/bootstrap.css">
+		
+	- asset 폴더
+		- D:\class\server\JSPTest\src\main\webapp\asset
+		- src > main > webapp > resources 폴더 안에 넣기
+		- asset 폴더는 삭제하고, 안에 css, js, images 등의 폴더는 밖으로 빼기
+		- 스프링 MVC 프로젝트에서는 정적 자원(html, css, js, 이미지 등)은 resources 폴더 하위에서 관리하도록 권장
+
+
+2. servlet-context.html에서 resource 경로 미리 지정
+	- <resources mapping="/img/**" location="/resources/images/" />
+	- <resources mapping="/css/**" location="/resources/css/" />
+	- <resources mapping="/js/**" location="/resources/js/" />
+
+	- 이렇게 바꿔줄 경우, JSP 파일에서 아래아 같이 쓰기 가능
+		- 원래 ) <img src="/spring/resources/images/catty01.png">
+		- 예시1) <img src="/spring/img/catty01.png">
+		- 예시2) <img src="img/catty01.png">
+
+
+
+

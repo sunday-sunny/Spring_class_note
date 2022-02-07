@@ -7,11 +7,14 @@ import lombok.Data;
 public class DTO {
 	
 	private String seq;
-	private String name;
 	private String id;
 	private String subject;
 	private String content;
 	private String regdate;
-
+	
+	/* 2022-02-07(월), ex03 예제로 추가*/
+	private String name;
+	private String age;			
+	private String address;
 
 }
