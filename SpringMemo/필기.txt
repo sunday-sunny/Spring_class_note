@@ -1,0 +1,88 @@
+/* 2022-02-07(월) */
+
+새 프로젝트
+- Spring MVC Project > "SpringMemo" > "com.test.memo"
+
+
+프로젝트 설정
+1. pom.xml
+	a. 스프링 버전 교체
+		- <org.springframework-version>3.1.1.RELEASE</org.springframework-version>
+		- 3.1.1 > 4.3.8
+		- jar 파일들이 모두 바뀜
+		
+	b. 자바 버전 교체
+		- 1) <java-version>1.6</java-version>
+			- 1.6 > 11
+		- 2) <configuration> > 141, 142 line
+			- 1.6 > 11
+		- 3) project properties > Maven > Project Facts > Java 11로 변경
+		- 4) Build Path의 Library도 모두 해당 자바 버전에 맞는 걸로 교체
+		
+		*** 나는 현재 자바 버전 9를 사용하는데 11로 바꾸니까 library가 없어서 안 돌아감.
+		*** 선생님께 여쭤보니 1.8으로 두고 쓰라고 함! 
+		*** (추후에 할 수업이 1.8 이상부터 에러가 안 나기 때문)
+			 
+	c. ojdbc6.jar
+		- 방법1) Build Path > 직접 추가
+		- 방법2) WEB-INF	> lib > 직접 추가
+		- 방법3) Maven		> ojdbc6 검색해서 dependency 넣어주기
+		
+		*** 편리하게 방법3으로 진행
+		
+
+2. web.xml
+	a. 인코딩 필터 추가
+	
+3. root-context.xml
+	a. 현재 설정 없음
+	
+4. servlet-context.xml
+	a. <resources> 수정
+	
+5. 클라이언트 설정
+	a. inc 복사
+	b. css 복사
+	c. fonts 복사
+	d. images 복사
+	e. js 복사
+	
+6. DB
+	a. ERD
+	b. Table
+	c. DBUtil.java 세팅
+	
+
+7. 업무 + 파일
+	- "MemoController.java" > 메인 컨트롤러
+	- "IMemoService.java"
+	- "MemoService.java"
+	- "MemoDAO.java"
+	- "MemoDTO.java"
+	
+	a. 목록(메모) 보기
+		- "list.jsp"
+	b. 메모 쓰기
+		- "add.jsp"
+	c. 메모 수정
+		- "edit.jsp"	
+	d. 메모 삭제
+	
+	e. 공통
+		- inc > "header.jsp"
+	
+	
+*** 정리 
+1. Controller <-> Service <-> DAO
+2. 전달값을 요청 메소드의 매개변수를 사용해서 받은 것
+3. 공용 객체를 멤버 승격 + @Autowired 의존 주입
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
