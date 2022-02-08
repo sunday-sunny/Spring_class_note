@@ -1,0 +1,22 @@
+Spring Tiles 설정
+
+
+1. pom.xml
+	- <dependency> * 5개 추가 (tiles 관련)
+		- tiles-core
+		- tiles-api
+		- tiles-servlet
+		- tiles-jsp
+		- tiles-template
+	
+	
+2. WEB-INF > "tiles.xml" 생성
+	- 레이아웃 설정 파일 > 이 파일을 통해서 템플릿 관리
+	- <definition> 정의
+	
+	
+3. servlet-context.xml
+	- tiles 뷰리졸버 세팅
+
+
+4. 페이지 조각내서 사용

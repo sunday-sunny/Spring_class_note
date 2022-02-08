@@ -1,0 +1,33 @@
+/* main.css */
+
+main {
+	width: 600px;
+	border: 10px solid #555;
+	margin: 0px auto;
+}
+
+header {
+	border: 10px solid #555;
+	height: 100px;
+	background-color: lightpink;
+}
+
+header>a {
+	color: white;
+	margin: 10px;
+}
+
+
+section>section {
+	/* width : auto; */
+	width: 580px;
+	height: 430px;
+	border: 10px solid #555;
+	float: left;
+}
+
+section:after {
+	content: '';
+	display: block;
+	clear: both;
+}
