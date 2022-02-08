@@ -11,4 +11,14 @@ public interface IMemoService {
 	/* memo를 추가하는 service 메소드 */
 	int add(MemoDTO dto);
 
+	/* memo를 하나 가져오는 메소드 */
+	MemoDTO get(String seq);
+	
+	/* memo를 수정하는 메소드 */
+	int edit(MemoDTO dto);
+	
+	/* memo를 삭제하는 메소드 */
+	int del(String seq);
+
+
 }

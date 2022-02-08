@@ -61,7 +61,7 @@ public class MemoController {
 				resp.sendRedirect("/memo/list.do");
 			else
 				resp.sendRedirect("/memo/add.do");
-			}
+		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -70,20 +70,61 @@ public class MemoController {
 	
 	/* Edit */
 	@RequestMapping(value="/edit.do", method= {RequestMethod.GET})
-	public String edit() {
+	public String edit(HttpServletRequest req, String seq) {
+		
+		// 1. 데이터 가져오기
+		// 2. DB작업 > select > Service 위임
+		// 3. 반환값 전달 + JSP 호출
+		
+		MemoDTO dto = service.get(seq);
+		
+		req.setAttribute("dto", dto);
+		
 		
 		return "edit";
 	}
 	
 	@RequestMapping(value="/editok.do", method= {RequestMethod.POST})
-	public void editok() {
+	public void editok(HttpServletResponse resp, MemoDTO dto) {
+		
+		// 1. 데이터 가져오기
+		// 2. DB작업 > select > Service 위임
+		// 3. 반환값 전달 + JSP 호출
+		
+		int result = service.edit(dto);
+		
+		try {
+			if(result == 1)
+				resp.sendRedirect("/memo/list.do");
+			else
+				resp.sendRedirect("/memo/edit.do?seq=" + dto.getSeq());
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 	
 	/* Del */
-   @RequestMapping(value="/delok.do", method={RequestMethod.POST})
-   public void delook() {
+   @RequestMapping(value="/delok.do", method={RequestMethod.GET})
+   public void delook(HttpServletResponse resp, String seq) {
       
+	   // *** location.href은 GET 요청
+	   
+	   // 1. 데이터 가져오기(seq)
+	   // 2. DB 작업 > delete > Service 위임
+	   // 3. 피드백
+	   
+	   int result = service.del(seq);
+	   
+	   try {
+			resp.sendRedirect("/memo/list.do");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	   
    }
 	
 	

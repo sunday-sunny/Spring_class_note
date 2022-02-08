@@ -42,4 +42,27 @@ public class MemoService implements IMemoService {
 		return dao.add(dto);
 	}
 
+
+	@Override
+	public MemoDTO get(String seq) {
+		
+		return dao.get(seq);
+	}
+
+
+	@Override
+	public int edit(MemoDTO dto) {
+		
+		return dao.edit(dto);
+	}
+	
+	
+	@Override
+	public int del(String seq) {
+		
+		return dao.del(seq);
+	}
+	
+	
+
 }
