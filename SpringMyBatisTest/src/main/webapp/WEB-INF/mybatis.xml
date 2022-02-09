@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<!-- ** Alise 지정 ** -->
+	<!-- - SQL XML에서 사용하는 parameterType, resultType을 위한 alise 지정 -->	
+	<typeAliases>
+		<typeAlias type="com.test.mybatis.MemoDTO" alias="dto"/>
+	</typeAliases>
+
+   
+</configuration>

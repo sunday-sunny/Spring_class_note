@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+
+<!-- namespace를 적어줘야하는데, 보편적으로 파일 이름 기재-->
+<mapper namespace="test">
+
+	<!-- 예제1) insert문 | 인자값 X, 반환값 X, 하드코딩 insert문 -->
+	<insert id="m1">
+		insert into tblMemo(seq, name, memo, regdate) 
+			values (seqMemo.nextVal, '홍길동', 'MyBatis 테스트입니다.', default)
+	</insert>
+	
+	
+	<!-- 예제2) insert문 | 인자값 O, 반환값 X -->
+	<!-- #{name} == #{dto.getName}과 같은 의미 -->
+ 	<insert id="m2" parameterType="dto">
+		insert into tblMemo(seq, name, memo, regdate) 
+			values (seqMemo.nextVal, #{name}, #{memo}, default)
+	</insert>
+	
+	
+	<!-- 예제3) delete문 | 인자값 O, 반환값 X -->
+	<delete id="m3" parameterType="String">
+		delete from tblMemo where seq = #{seq}
+	</delete>
+
+
+	<!-- 예제4) insert문 | 복합값 전달 -->
+	<!-- parameterType은 full name으로 적어줘야한다. -->
+	<insert id="m4" parameterType="java.util.HashMap">
+		insert into tblMemo(seq, name, memo, regdate) 
+			values (seqMemo.nextVal, #{name}, #{memo}, default)
+	</insert>
+	
+	
+	<!-- 예제5) select문 | 단일값 반환, count(*) 예제 -->
+	<!-- resutType : 반환값 타입 -->
+	<select id="m5" resultType="Integer">
+		select count(*) from tblMemo
+	</select>
+	
+	
+	 <!-- 예제6) select문 | 단일값 반환(복합값 다중 컬럼), DTO 반환 -->
+	 <!-- select 해오는 컬럼이름이랑 setter 이름이 똑같아야 매칭해서 가져올 수 있음
+		  이름이 다르면 그 컬럼만은 DTO에 담을 수 없다. 
+	 -->
+	<select id="m6" parameterType="String" resultType="dto">
+		select * from tblMemo where seq = #{seq}
+	</select>
+	
+	
+	<!-- 예제7) select문 | (단일 컬럼 + 다중 레코드) 반환, 메모 내용만 가져오기 -->
+	<!-- *** N개의 레코드를 반환할 때, resultType은 레코드 1개의 타입을 명시한다. -->
+	<select id="m7" resultType="String">
+		select memo from tblMemo
+	</select>
+	
+	
+	<!-- 예제8) select문 | (다중 컬럼 + 다중 레코드) 반환, 메모 리스트 전체 반환 -->
+	<select id="m8" resultType="dto">
+		select * from tblMemo	
+	</select>
+	
+	
+	<!-- 예제9) select문 | 메모 검색, 동적쿼리 사용 -->
+	<select id="m9" parameterType="map" resultType="dto">
+
+		select * from tblMemo
+		
+			<!-- MyBatis 동적 쿼리 -->
+			<if test="column == 'name'">
+			where name = #{word}
+			</if>
+			
+			<if test="column == 'memo'">
+			where memo like '%' || #{word} || '%'
+			</if>
+			
+			order by seq
+			<if test="order == 'asc'"> asc</if>
+			<if test="order == 'desc'"> desc</if>
+			
+	</select>
+	
+	
+	<!-- 예제10) select문 | 메모 검색, ${} 바인딩 -->
+	<select id="m10" parameterType="map" resultType="dto">
+		
+		<!-- 
+			#{} 바인딩 > 데이터 취급 > '데이터'
+			${} 바인딩 > 키워드 취급 > 데이터 > 글자 그대로 찍음
+		 -->
+		
+		select * from tblMemo
+		where ${column} like '%' || #{word} || '%'
+		order by seq ${order}
+	
+	</select>
+	
+	
+	
+
+
+
+
+</mapper>

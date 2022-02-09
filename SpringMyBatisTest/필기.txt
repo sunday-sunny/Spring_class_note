@@ -1,0 +1,140 @@
+/* 2022-02-09(수) */
+
+
+새 프로젝트
+	- Spring MVC Project > "SpringMyBatisTest" > "com.test.mybatis"
+
+
+MyBatis
+	- MyBatis는 자바 퍼시스턴스 프레임워크의 하나로 XML 서술자나 애너테이션을 사용하여 저장 프로시저나 SQL 문으로 객체들을 연결시킨다.
+	- 퍼시스턴스 프레임워크 : DB 연결 계층(JDBC)
+	- SQL : XML or 어노테이션으로 작성
+	
+			ex) SQL을 작성하는 여러 방법
+			- String sql = "select..";
+			- <select>select .. </select>
+			- @XXX("select..")
+		
+		
+
+프로젝트 설정
+1. pom.xml
+	a. JDBC		
+		- "ojdbc6.jar"
+	b. MyBatis
+		- MyBatis 관련 4개
+			- "mybatis"
+			- "mybatis-spring"
+			- "spring-orm"
+			- "commons-dbcp"
+	c. lombok
+	d. log4js
+		- "log4jdbc-remix"	: log4j를 MyBatis와 연동하기 위한 설정
+		- "log4j-core"		: log4j 보안 관련 패치
+							  기존 "Logging" dependency에서 exclusion + scope 잘라서 붙여준다.
+		
+
+	
+2. web.xml
+	a. 인코딩 필터
+	
+	
+	
+3. root-context.xml
+	a. MyBatis 설정
+		- mybatis 관련 <bean> 설정 3개
+			- "org.apache.commons.dbcp.BasicDataSource"		: Connection 역할
+			- "org.mybatis.spring.SqlSessionFactoryBean"	: 설정 담당
+			- "org.mybatis.spring.SqlSessionTemplate"		: Statment + ResultSet 역할
+			
+	b. mybatis.xml 생성
+		- "/WEB-INF/mybatis.xml"
+		- 생성 후 선생님이 주신 코드로 교체
+		- SQL 작성시 설정 값 지정하는 XML 파일로 추측 중
+		- 경로에 Alise를 설정 등
+		
+	c. test.xml 생성
+		- "com.test.mybatis.mapper" 패키지 내 생성
+		- 생성 후 선생님이 주신 코드로 교체
+		- SQL 구문들을 작성할 XML 파일
+	
+	d. log4j 설정
+		- "net.sf.log4jdbc.Log4jdbcProxyDataSource"
+		- log4j를 MyBatis와 연동하기 위한 설정
+		- Connection과 설정 사이에 끼워넣는다. (설정쪽 id 변경 필요)
+
+
+
+4. log4j.xml
+- src/main/resources > "log4j.xml" > 선생님이 주신 코드로 변경
+
+
+
+
+*** 참고 ***
+* root-context.xml		: 스프링 프로젝트의 전체적인 설정을 하는 파일
+* servlet-context.xml	: 클라이언트에 요청과 응답에 관련된 프로젝트 설정
+		
+						@Controller 어노테이션을 찾을 영역의 최상위 패키지를 지정.
+						<context:component-scan base-package="com.test.mybatis" />
+							- 해당 패키지 산하가 아니면 컨트롤러 인식을 못함
+							- 프로젝트 진행, 패키지 만들 때 유의 ***
+							- com.test.mybatis
+							- com.test.member	> 이렇게 만들어도 인식을 못해서 실행 x
+
+
+
+파일생성
+	- "MyBatisController.java"
+	- "MyBatisDAO.java"
+	- "MemoDTO.java"
+	- views > "result.jsp"
+
+
+
+
+****************** log4j 관련 세팅 ******************
+- pom.xml
+- 보안 이슈로 최신 패치된 버전으로 변경
+- 기존 버전에서 exclusion + scope 잘라서 붙임
+	
+<!-- log4j -->
+<dependency>
+	<groupId>org.apache.logging.log4j</groupId>
+	<artifactId>log4j-core</artifactId>
+	<version>2.17.1</version>
+	<exclusions>
+		<exclusion>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+		</exclusion>
+		<exclusion>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms</artifactId>
+		</exclusion>
+		<exclusion>
+			<groupId>com.sun.jdmk</groupId>
+			<artifactId>jmxtools</artifactId>
+		</exclusion>
+		<exclusion>
+			<groupId>com.sun.jmx</groupId>
+			<artifactId>jmxri</artifactId>
+		</exclusion>
+	</exclusions>
+	<scope>runtime</scope>
+</dependency>
+
+
+Error Node)
+저 오류 찾는데 겁나 빡침..
+pom.xml에서 기존 logging에서 log4j 필요한 부분 잘라 붙이고 기존꺼 삭제했더니 났던 오류ㅠ 
+잘라서 옮기기만 하고 기존꺼는 삭제하면 안됨ㅠ 
+서버가 안 돌아가서 1시간 반 동안 찾다가 발견ㅠㅠ
+
+
+
+
+
+
+
+
