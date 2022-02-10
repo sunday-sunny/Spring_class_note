@@ -1,0 +1,66 @@
+/* 2022-02-10(목) */
+
+새 프로젝트 생성
+
+
+스프링 파일 업로드 세팅
+1. pom.xml
+	- <dependency> * 2개
+		- commons-io
+		- commons-fileupload
+		
+2. web.xml
+	- 인코딩 필터 > 다른 프로젝트에서 복사(SpringMemo)
+	
+3. root-context.xml
+	- multipartResolver (파일 업로드 크기 설정)
+	
+	
+DB사용을 위한 MyBatis 설정 > SpringMyBatisTest
+1. pom.xml 
+	- ojdbc6
+	- lombok
+	- MyBatis * 4
+	- log4jdbc-remix
+	- log4j 버전 변경 > 63~64라인 3줄, SpringMyBatisTest에서 복붙 > 2.17.1
+			***
+			<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+			<version>2.17.1</version>
+			***
+	
+2. root-context.xml
+	- MyBatis * 4개
+	- mapper 설정 (현재 패키지명으로 변경)
+	
+3. file.xml
+	- 복붙, 현재 패키지명으로 namespace 변경
+
+4. mabatis.xml
+	- 복붙, 내용 지우기 
+	
+
+	
+파일 생성
+-- 게시판 + 파일업로드(1개)
+- "FileController.java"
+- "BoardDTO.java"
+- "BoardDAO.java"
+
+- "list.jsp"
+- "add.jsp"
+
+- "script.sql"
+
+
+-- 게시판 + 파일업로드(N개)
+- "MBoardDTO.java"
+- "FileDTO.java"
+- "mlist.jsp"
+- "madd.jsp"
+
+
+
+
+
+

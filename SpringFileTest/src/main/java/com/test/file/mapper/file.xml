@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="file">
+	
+	<!--파일업로드(1개) | insert, 첨부파일 저장 -->
+	<insert id="add" parameterType="com.test.file.BoardDTO">
+		insert into tblFileBoard(seq, name, subject, regdate, filename, orgfilename)
+			values (seqFileBoard.nextVal, #{name}, #{subject}, default, #{filename}, #{orgfilename})
+	</insert>
+	
+	<!-- 파일업로드(1개) | 목록 가져오기 -->
+	<select id="list" resultType="com.test.file.BoardDTO">
+		select * from tblfileboard order by seq desc
+	</select>
+	
+	
+	
+	
+	<!-- 파일업로드(N개) | 게시물 저장 -->
+	<insert id="madd" parameterType="com.test.file.MBoardDTO">
+		insert into tblFileBoard(seq, name, subject, regdate)
+			values (seqFileBoard.nextVal, #{name}, #{subject}, default)
+	</insert>
+	
+	<!-- 파일업로드(N개) | 게시물 번호 select -->
+	<select id="getseq" resultType="String">
+		select max(seq) from tblFileBoard
+	</select>
+	
+	<!-- 파일업로드(N개) | 첨부파일 insert -->
+	<insert id="maddfile" parameterType="com.test.file.FileDTO">
+		insert into tblFile(seq, orgfilename, filename, bseq)
+			values(seqFile.nextVal, #{orgfilename}, #{filename}, #{bseq})
+	</insert>
+
+	<!-- 파일업로드(N개) | 파일 게시판 목록 select -->
+	<select id="mlist" resultType="com.test.file.MBoardDTO">
+		select * from tblfileboard order by seq desc
+	</select>
+	
+	<!-- 파일업로드(N개) | 첨부파일 목록 select -->
+	<select id="mfilelist"  parameterType="String" resultType="com.test.file.FileDTO">
+		select * from tblFile where bseq = #{seq}
+	</select>
+
+</mapper>
