@@ -6,3 +6,5 @@
 /* images 리소스 제외 */
 /SpringWebTest/src/main/webapp/resources/images
 /SpringMemo/src/main/webapp/resources/images
+
+/SpringWebAOPTest/target
