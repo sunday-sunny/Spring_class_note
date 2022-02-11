@@ -1,0 +1,85 @@
+/* 2022-02-11(금) */
+
+새 프로젝트
+"SpringWebAOPTest" > "com.test.aop"
+
+
+Spring MVC Project + Spring AOP + "Annotation"
+	- 기존 XML을 이용한 AOP 방식 (2022-02-04, SpringBegin 참고)
+
+
+*** 생략 ***
+- Mybatis
+- tiles
+- 데이터 주고받기(인코딩)
+************ 
+
+
+
+AOP 설정
+1. pom.xml > "SpringBegin" 에서 복붙
+	- "AOP Alliance"
+	- "Aspect jweaver"
+	- "cglib"
+
+
+2. web.xml
+	- 인코딩 필터 (*생략)
+	
+	
+3. root-context.xml
+	- MyBatis + log4j + FileUpload (*생략)
+	
+	
+4. servlet-context.xml
+	- Tiles (*생략) 
+	- AOP(***)
+		1) 하단 namespace 탭에서 aop 체크!
+		2) <aop:aspectj-autoproxy></aop:aspectj-autoproxy> 추가
+			- 해당 구문이 없으면 XML로 작업해야함..
+			
+			
+파일 생성
+- "AOPController.java"
+- "BoardService.java"	> 주업무(글쓰기 서비스)
+- "Auth.java"			> 보조업무(인증)
+- "Cross.java"			> 보조업무
+- "Logger.java"			> 보조업무(로그)
+- views > "result.jsp"
+
+
+
+
+수업 Note)
+- AOP 적용하려면, 반드시 의존 주입으로 들어가야함! @Authwired (AOPController에!!)
+
+- Annotation 사용시 주의점!
+	- class 이름 != Annotation
+	- Annotation과 클래스 이름이 같으면 충돌나서 Annotation import가 안됨
+	- 밀려나면 풀네임으로 어노테이션을 적어야 하는데 절대 그러면 안됨!
+
+- AOP 적용하기	
+	1) 보조업무 클래스에 Annotation 부여
+		- @Aspect
+		- @Component
+	2) 포인트컷 지정
+		- @Pointcut("AOP를 적용할 메소드")
+	3) 보조업무 + 주업무 결합
+		- @After("포인트컷 메소드")
+
+
+
+Error Note)
+-- 원래 되던게 안되던 에러 일 때
+-- 새로운 jar 파일 다운로드 실패의 경우 일 수 있음 ..
+- windows > preferences > maven > user settings > Local Repository > (주소 복사해서 탐색기) 
+	> (jar 파일의 저장소, 패키지 폴더 이름으로 폴더 구성) > maven으로부터 다운 받으라고 시킨 jar 파일의 실제 위치
+	> 이클립스를 닫고 > 해당 폴더 전체를 삭제 > 이클립스 재시작 > 자동으로 다시 다운 받아짐 
+	> 프로젝트 오른쪽 > maven > update project
+	
+	
+	
+	
+	
+	
+	
