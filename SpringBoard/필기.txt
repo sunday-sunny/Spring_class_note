@@ -1,0 +1,92 @@
+/* 2022-02-14(월) */
+
+
+새 프로젝트 생성
+- "SpringBoard" > "com.test.spring"
+
+
+
+1. DB
+- SpringBoard > "script.sql"
+
+
+2. Spring 설정
+	a. Spring Tiles
+	b. Spring AOP
+	c. Spring FileUpload
+	d. MyBatis
+
+	
+3. pom.xml
+	- 스프링 버전 변경 4.3.8
+	- 자바 버전 변경 11
+	a. JDBC		> SpringMyBatisTest * 1개
+	b. lombok	> SpringMyBatisTest * 1개
+	c. Mybatis	> SpringMyBatisTest * 1개
+		- root-context.xml
+			- mapper 추가
+			- mybatis.xml
+	
+	d. log4j >  SpringMyBatisTest * 2개
+		- log4j.xml
+			- 복붙해서 패키지 이름 변경(20 line)
+	
+	e. Tiles > SpringTilesTest * 5개
+		- servlet-context.xml
+			- tiles.xml
+		
+	f. AOP > SpringWebAOPTest * 3개
+		- servlet-context.xml
+			- namespace > aop 체크
+	
+	g. FileUpload > SpringFileTest * 2개
+		- root-context.xml
+		- webapp > resources > "file" 폴더 생성
+		
+	h. web.xml
+		- 인코딩 설정
+	
+
+4. 파일 + 폴더 생성
+	a. "BoardController.java"
+	b. "BoardService.java"		> 인터페이스
+	c. "BoardServiceImpl.java"	> 구현 클래스
+	d. "BoardDAO.java"			> 인터페이스
+	e. "BoardDAOImpl.java"		> 구현 클래스
+	f. "BoardDTO.java"			> 모델
+	
+	g. views > "board"	> "list.jsp"
+						> "add.jsp"
+						> "edit.jsp"
+						> "del.jsp"
+						> "view.jsp"
+	
+	h. views > "layout" > "board.jsp" : 전체 레이아웃 페이지
+	
+	i. views > "inc"	> "header.jsp" : memo 프로젝트에서 복사
+						> "asset.jsp"  : memo 프로젝트에서 복사
+	
+	j. webapp > resources > css, js, fonts 복사
+	
+	
+	(구 표기법)		: ITest(인터페이스)	> Test(클래스)
+	(요즘 표기법)	: Test(인터페이스)	> TestImpe(클래스)
+
+
+
+
+
+** 주의 ! **
+server > 등록된 tomcat 오른쪽 마우스 > modules > 서버 쌓아놓지 말것! > 실행시 다 실행돼서 무거워짐
+또한, 톰캣 클린하면 모듈 설정한게 초기화 되니 주의 !
+
+
+** 첨부파일은 언제 사라지는가? **
+1. 메타 폴더를 지웠을 때
+2. 톰캣을 clean 했을 때 
+
+
+
+
+
+
