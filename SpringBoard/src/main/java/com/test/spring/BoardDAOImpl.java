@@ -21,5 +21,20 @@ public class BoardDAOImpl implements BoardDAO{
 	public List<BoardDTO> list() {
 		return template.selectList("board.list");
 	}
+
+	@Override
+	public BoardDTO get(String seq) {
+		return template.selectOne("board.get", seq);
+	}
+
+	@Override
+	public int edit(BoardDTO dto) {
+		return template.update("board.edit", dto);
+	}
+
+	@Override
+	public int del(String seq) {
+		return template.delete("board.del", seq);
+	}
 	
 }

@@ -23,5 +23,32 @@ public interface BoardService {
 	 */
 	List<BoardDTO> list();
 
+	
+	/**
+	 * 글 하나를 가져오는 서비스
+	 * @param seq 불러올 게시물 seq
+	 * @return 게시물 DTO
+	 */
+	BoardDTO get(String seq);
+
+	
+	/**
+	 * 글을 수정하는 서비스
+	 * @param dto 수정할 게시물 DTO
+	 * @param session 회원 id값을 받기 위한 session
+	 * @param req 첨부파일을 받기 위한 request 파라미터
+	 * @param del 첨부파일 삭제여부 확인을 위해 넘어온 hidden input
+	 * @return update 결과
+	 */
+	int edit(BoardDTO dto, HttpSession session, HttpServletRequest req, String del);
+	
+	
+	/**
+	 * 글을 삭제하는 서비스
+	 * @param seq 삭제하려는 게시물 seq
+	 * @return delete 결과값
+	 */
+	int del(String seq, HttpServletRequest req);
+
 
 }

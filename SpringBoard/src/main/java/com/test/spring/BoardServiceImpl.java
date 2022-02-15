@@ -94,6 +94,89 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardDTO> list() {
 		return dao.list();
 	}
+
+
+	@Override
+	public BoardDTO get(String seq) {
+		return dao.get(seq);
+	}
+
+
+	@Override
+	public int edit(BoardDTO dto, HttpSession session, HttpServletRequest req, String del) {
+		
+		/* id 추가 : session 로그인 id값을 받아온다. */
+		dto.setId(session.getAttribute("id").toString());
+		
+		/* 첨부파일 추가 : req로 넘어온 값을 받아온다. */
+		MultipartHttpServletRequest multi = (MultipartHttpServletRequest)req;
+		
+		MultipartFile file = multi.getFile("attach");
+		String path = req.getRealPath("/resources/file");
+		System.out.println(path);
+		
+		
+		/* 해당 게시물의 첨부파일 정보 가져와서 넘어온 수정 게시물 dto에 세팅 */
+		BoardDTO mdto = dao.get(dto.getSeq());
+		dto.setOrgfilename(mdto.getOrgfilename());
+		dto.setFilename(mdto.getFilename());
+		
+		
+		/* 수정 게시물에 첨부파일을 추가한 경우 */
+		if (!file.isEmpty()) {
+			
+			// 기존 등록된 첨부파일이 있는 경우, 기존 파일 삭제
+			if (mdto.getFilename() != null) {
+				File delfile = new File(path + "\\" + mdto.getFilename());
+				delfile.delete();
+			}
+			
+			// 새로 첨부한 첨부파일 세팅
+			String filename = file.getOriginalFilename();
+			dto.setOrgfilename(filename);
+			
+			filename = getFileName(path, filename);
+			dto.setFilename(filename);
+			
+			try {
+				File mfile = new File(path + "\\" + filename);
+				file.transferTo(mfile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		} 
+		/* 수정 게시물에 첨부파일을 추가하지 X한 경우 */
+		else {
+			
+			// 기존 등록된 첨부파일을 [삭제]로 수정한 경우
+			if (del.equals("on")) {
+				
+				// 기존 첨부파일 삭제 처리
+				File delfile = new File(path + "\\" + mdto.getFilename());
+				delfile.delete();
+				
+				dto.setOrgfilename(null);
+				dto.setFilename(null);
+			}
+		}
+		
+		return dao.edit(dto);
+	}
+	
+	
+	@Override
+	public int del(String seq, HttpServletRequest req) {
+		
+		// 첨부파일 삭제 선행
+		BoardDTO dto = dao.get(seq);
+		
+		String path = req.getRealPath("/resources/file");
+		File file = new File(path + "\\" + dto.getFilename());
+		file.delete();
+		
+		return dao.del(seq);
+	}
 	
 	
 }
