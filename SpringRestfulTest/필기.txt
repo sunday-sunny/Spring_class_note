@@ -126,3 +126,38 @@ URI 작성
 - 근데 안됨 ㅠㅠ...
 Content-Type: : application/json
 
+
+
+
+/* 2022-02-17(목) */
+
+* Ajax 오류 잡기 : JQuery serializeObject.js 추가 
+* Ajax를 이용한 "CRSR + REST API" 개발 방법으로 CRUD 구현 : 키야 개쩜,, 
+	- index.jsp
+
+
+사이트 개발
+1. SSR 의존적 개발
+	- Server Side Rendering > 서버측에서 페이지를 제작
+	- Servlet/JSP
+	- 서버: 모든 업무(작업)와 페이지 제작을 한다.
+	- 클라이언트: 서버가 제공하는 페이지를 소비(사용)한다.
+	- 초기~현재
+
+2. CSR + REST API 개발
+	- Client Side Rendering > 클라이언트측에서 페이지를 제작
+	- Ajax > JavaScript Framework > Agular, Vue, React ... > 다시 Vanilla JavaScript 회귀 현상
+	- 서버: 업무(작업) 후 데이터 입/출력 제공 > 페이지 작업 안함(!!)
+	- 클라이언트: 서버로부터 데이터 입/출력 작업 통해 모든 페이지 작업을 한다.
+	- ES6 이후~
+	- 모바일웹, 웹앱 등 .. 스마트폰 앱	
+
+
+
+
+
+
+
+
+
+
