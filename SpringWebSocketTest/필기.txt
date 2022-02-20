@@ -1,0 +1,61 @@
+/* 2022-02-18(금) */
+
+- "SpringWebSocketTest" > "com.test.socket"
+
+
+프로젝트 세팅
+1. pom.xml
+	- websocket 2개 추가
+ 		
+2. web.xml
+	- 인코딩 필터 추가
+
+
+WebSocket > Socket
+- 네트워크상에 호스트끼리 통신하는 도구
+- 호스트(사람), 소켓(전화기)
+
+
+소켓 동작
+1. 호스트A, 호스트B
+2. 호스트A > 소켓 생성 + IP 주소 + 포트번호 > 중단점(EndPoint)
+3. 호스트B > 소켓 생성 + IP 주소 + 포트번호 > 중단점(EndPoint)
+4. 호스트B > 미리 수신 대기 준비
+5. 호스트A > 호스트B 연결 시도 > 호스트A > 상대방 호스트B의 종단점 > 연결 시도
+6. 호스트B > 연결 성립 > 호스트A와 연결이 되어 있는 전용 소켓 생성
+7. 서로 연결 > 데이터 송수신
+
+
+파일
+	예제1) 
+		- "TestController.java"
+		- "SocketServer.java"
+		- views > "test.jsp"
+
+	예제2)
+		- com.test.socket
+			- "SocketServer.java"
+			- "ChatServer.java"
+		- src/main/webapp/resources
+			- "chat.html"
+		
+
+
+
+
+*** 
+현재 jsp가 아니라 chat.html로 페이지를 만들어서 작업 중인데,
+dispatcher가 모두 jsp 파일로 읽어버림...
+	- 때문에 html 파일을 > src/main/webapp/resources 폴더에 넣음
+	- resources 폴더는 정적 소스를 넣는 곳이여서, dispatcher가 여기는 안 읽음
+	- 서버 주소 : http://localhost:8090/socket/resources/chat.html
+	- 미래의 나 ! 까먹지 말라구 !!
+	
+	
+	
+	
+	
+	
+	
+	
+	
