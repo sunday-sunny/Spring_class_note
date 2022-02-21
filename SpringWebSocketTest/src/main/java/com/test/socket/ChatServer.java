@@ -45,6 +45,9 @@ public class ChatServer {
 		
 		// 1#유저명 (채팅참여)
 		// 2#유저명 (채팅종료)
+		// 3#유저명#메시지
+		// 4#유저명#이모티콘번호
+		
 		int index = -1;
 		String no = "";
 		String user = "";
@@ -88,6 +91,34 @@ public class ChatServer {
 				}
 			}
 		}
+		
+		/* #3 대화 메시지 전달 */
+		else if(no.equals("3")) {
+			
+			for(Session s : list) {
+				if(s != session) {
+					try {
+						s.getBasicRemote().sendText(msg); // 3#유저명#메시지
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
+		/* #4 이모티콘 전달 */
+		else if(no.equals("4")) {
+			
+			for(Session s : list) {
+				if(s != session) {
+					try {
+						s.getBasicRemote().sendText(msg); // 4#유저명#이모티콘번호
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 
 	}
 
@@ -95,12 +126,28 @@ public class ChatServer {
 	@OnClose
 	public void handleClose() {
 		logger.info("클라이언트와 연결이 종료되었습니다.");
+		clearList();
 	}
 
 	
 	@OnError
 	public void handleError(Throwable e) {
 		logger.info("에러 발생 " + e.getMessage());
+		clearList();
 	}
+	
+	
+	/* 연결 끊긴 세션 제외 메소드 */
+	private void clearList() {
+		
+		// List<Session> list
+		for(int i = list.size()-1; i >=0; i--) {
+			// 연결 끊긴 세션을 제외
+			if(!list.get(i).isOpen())
+				list.remove(list.get(i));
+		}
+	}
+	
+	
 
 }

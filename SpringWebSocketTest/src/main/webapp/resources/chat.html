@@ -13,35 +13,90 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
 	<style>
-		.container {
-			width : 500px;
-		}
+		   .container {
+		      width: 500px;
+		   }
+		   
+		   #list {
+		      height: 300px;
+		      padding: 5px;
+		      overflow: auto;
+		   }
+		   
+		   .me {
+		      display: inline-block;
+		      width: auto;
+		      float: right;
+		      margin-bottom: 15px;
+		   }
+		   
+		   .other {
+		      display: inline-block;
+		      width: auto;
+		      float: left;
+		      margin-bottom: 15px;
+		   }
+		   
+		   .state {
+		      border: 1px solid #CCC;
+		      background-color: #EEE;
+		      border-radius: 3px;
+		      padding: 5px 10px;
+		   }
+		   
+		   .time {
+		      font-size: 10px;
+		      color: #777;
+		      margin-top: 3px;
+		   }
+		   
+		   .me .time {
+		      text-align: right;   
+		   }
+		   
+		   .other .time {
+		      text-align: left;   
+		   }
+		   
+		   .me .msg {
+		      border: 1px solid #CCC;
+		      background-color: rgba(100,149,237,.3);
+		      border-radius: 3px;
+		      padding: 5px 10px;
+		      text-align: right;
+		      width: auto;
+		      float: right;
+		   }
+		   
+		   .other .msg {
+		      border: 1px solid #CCC;
+		      background-color: rgba(255,99,71,.3);
+		      border-radius: 3px;
+		      padding: 5px 10px;
+		      width: auto;
+		      float: left;
+		   }
+		   
+		   .other .user {
+		      float: left;
+		      font-size: 12px;
+		      margin-top: 3px;
+		      margin-left: 7px;
+		      color: #777;
+		   }
+		   
+		   
+		   
+		   #list::-webkit-scrollbar {
+		      width: 5px;
+		      height: 8px;
+		      background-color: #CCC;
+		   }
 		
-		#list {
-			height: 300px;
-			padding: 5px;
-			overflow: auto;
-		}
 		
-		.me {
-			display: inline-block;
-			width: auto;
-			float: right;
-			margin-bottom : 15px;
-		}
-		
-		.state {
-			border: 1px solid #ccc;
-			border-radius: 3px;
-			padding: 5px 10px;
-		}
-		
-		.time {
-			font-size : 10px;
-			color : #777;
-			text-align: right;
-			margin-top: 3px;
-		}
+		   #list::-webkit-scrollbar-thumb {
+		      background: #999;
+		   }
 	</style>
 
 </head>
@@ -122,7 +177,7 @@
 					
 					// 1#유저명
 					ws.send('1#' + $('#user').val());
-					print1('채팅에 참여했습니다.');
+					print1('채팅에 참여했습니다.', 'me');
 					
 					// UI 상태 조작
 					$('#btnConnect').attr('disabled', true);
@@ -144,10 +199,22 @@
 					let user = evt.data.substring(index+1);
 					
 					if(no == '1') {
-						$('#list').append('<div>' + user + '가 채팅에 참여했습니다.</div>');
+						print1(user + '가 채팅에 참여했습니다.', 'other');
 					}
 					else if(no == '2'){
-						$('#list').append('<div>' + user + '가 채팅에서 나갔습니다.</div>');
+						print1(user + '가 채팅에 나갔습니다.', 'other');
+					}
+					else if(no == '3'){
+						// 3#유저명#메시지
+						user = evt.data.substring(index + 1, evt.data.indexOf('#', index + 1));
+						let msg = evt.data.substring(evt.data.indexOf('#', index + 1) + 1);
+						
+						print3(user, msg);
+					}
+					else if(no == '4'){
+						// 4#유저명#이모티콘번호
+						let eno = evt.data.substring(evt.data.lastIndexOf('#') + 1);
+						print4(eno, 'other');
 					}
 					
 					
@@ -190,10 +257,26 @@
 		
 		/* Msg input form */
 		$('#msg').keydown(function(evt){
+			
 			if(evt.keyCode === 13){
-				// 대화 내용을 서버에 전달하기
-				ws.send($('#msg').val());
+				
+				/* 대화 내용을 서버에 전달하기 */
+				// 3#유저명#메시지	(일반메시지)
+				// 4#유저명#번호	(이모티콘)
+				
+				// #4 
+				if($('#msg').val().startsWith('/')){
+					ws.send('4#' + $('#user').val() + '#' + $('#msg').val().substring(1));
+					print4($('#msg').val().substring(1), 'me');
+				}
+				// #3
+				else {
+					ws.send('3#' + $('#user').val() + '#' + $('#msg').val());
+					print2($('#msg').val());
+				}
+				
 				$('#msg').val('').focus();
+				
 			}
 		});
 		
@@ -202,23 +285,67 @@
 		$('#btnDisconnect').click(function(){
 			//2#유저명
 			ws.send('2#' + $('#user').val());
-			print1('채팅에서 나갔습니다.');
+			print1('채팅에서 나갔습니다.', 'me');
 			ws.close();
 		});
 		
 		
 		/* 본인 상태 메시지 */
-		function print1(msg){
-			$('#list').append('<div class="me">'+
-					'<div class="state">'+ msg +'</div>'+
-					'<div class="time">'+ new Date().toLocaleString() +'</div>'+
-				'</div>'+
-				'<div style="clear:both;"></div>' );
-			
+		function print1(msg, side) {
+			$('#list').append(
+					'<div class="' + side + '">'+
+						'<div class="state">' + msg + '</div>'+
+						'<div class="time">'+ new Date().toLocaleString()+ '</div>'+
+					'</div>'+
+					'<div style="clear:both;"></div>');
+
+			scrollList();
+		}
+
+		/* 본인창 */
+		function print2(msg) {
+			$('#list').append(
+					'<div class="me">'+
+						'<div class="msg">' + msg + '</div>'+
+						'<div style="clear:both;"></div>'+
+						'<div class="time">' + new Date().toLocaleString() + '</div>'+
+					'</div>'+
+					'<div style="clear:both;"></div>');
+
+			scrollList();
 		}
 	
-	
-	
+		/* 상대방창 */
+		function print3(user, msg) {
+			$('#list').append(
+					'<div class="other">'+
+						'<div class="msg">' + msg + '</div>'+
+						'<div class="user">'+ user + '</div>'+
+						'<div style="clear:both;"></div>'+
+						'<div class="time">' + new Date().toLocaleString() + '</div>'+
+					'</div>'+
+					'<div style="clear:both;"></div>');
+
+			scrollList();
+		}
+		
+		
+		/* 이모티콘 메시지 */
+		function print4(eno, side) {
+			$('#list').append(
+					'<div class="' + side + '">' + 
+						'<img src="/socket/resources/images/0'+ eno +'.png" style="width:210px;">' + 
+					'</div>');
+			
+			scrollList();
+		}
+		
+
+		function scrollList() {
+			$("#list").scrollTop($("#list")[0].scrollHeight);
+		}
+		
+		
 	</script>
 
 

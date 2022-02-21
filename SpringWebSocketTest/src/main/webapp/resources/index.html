@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<style>
+	.container {
+		width: 500px;
+	}
+	.table td {
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h1 class="page-header">Chat <small>WebSocket</small></h1>
+		
+		<table class="table table-bordered">
+			<tr>
+				<td><input type="button" value="강아지" class="btn btn-primary"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="고양이" class="btn btn-danger"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="토끼" class="btn btn-success"></td>
+			</tr>
+		</table>
+	</div>
+	<script>
+		let child;
+		let user;
+		let left = 0;
+		
+		$('input[type=button]').click(function() {
+			child = window.open('chat.html', '', 'width=520, height=560, top=0, left=' + left);
+			left += 530;
+			user = event.srcElement.value;
+			setTimeout(() => {
+				child.document.getElementById('user').value = user;
+			}, 500);
+			setTimeout(() => {
+				child.document.getElementById('btnConnect').click();
+			}, 1000);
+		});
+	</script>
+</body>
+</html>
